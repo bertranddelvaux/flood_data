@@ -34,6 +34,17 @@ jobs:
       - name: pwd
         run: pwd
 
+      # cd flood_scripts and git fetch git pull
+      - name: cd flood_scripts and git fetch git pull
+        run: |
+          cd flood_scripts
+          git fetch
+          git pull
+
+      # back to main directory
+      - name: back to main directory
+        run: cd ..
+
       # Set up python
       - name: setup python
         uses: actions/setup-python@v3
