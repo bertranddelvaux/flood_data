@@ -26,14 +26,6 @@ jobs:
       - name: Run a one-line script
         run: echo Starting script to get historical data
 
-      # ls directory flood_scripts
-      - name: ls directory flood_scripts
-        run: ls -la flood_scripts
-
-      # pwd
-      - name: pwd
-        run: pwd
-
       # cd flood_scripts and git fetch git pull
       - name: cd flood_scripts and git fetch git pull
         run: |
@@ -45,17 +37,25 @@ jobs:
       - name: back to main directory
         run: cd ..
 
+      # ls directory flood_scripts
+      - name: ls directory flood_scripts
+        run: ls -la flood_scripts
+
+      # pwd
+      - name: pwd
+        run: pwd
+
       # Set up python
       - name: setup python
         uses: actions/setup-python@v3
         with:
           python-version: '3.9'
 
-      # Check submodule
-      - name: Update submodule
-        run: |
-          git submodule update --init
-          git submodule update --remote --merge
+#      # Check submodule
+#      - name: Update submodule
+#        run: |
+#          git submodule update --init
+#          git submodule update --remote --merge
 
       # Set up python packages
 #      - name: install python packages
