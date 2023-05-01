@@ -26,6 +26,10 @@ jobs:
       - name: Run a one-line script
         run: echo Starting script to get historical data
 
+      # ls directory
+      - name: ls directory
+        run: ls -la
+
       # Set up python
       - name: setup python
         uses: actions/setup-python@v3
