@@ -63,16 +63,12 @@ jobs:
 #          python -m pip install --upgrade pip
 #          pip install -r requirements.txt
 
-      # execute python script fetchLatestTIF.py
-      - name: execute python script fetchLatestTIF.py
+      # execute python script processThroughFiles.py
+      - name: execute python script pipeline.py
         env:
           JBA_USERNAME: ${{ secrets.JBA_USERNAME }}
           JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
-        run: python scripts/fetchLatestTIF.py
-
-      # execute python script processThroughFiles.py
-      - name: execute python script pipeline.py
-        run: python flood_scripts/scripts/pipeline.py -h
+        run: python flood_scripts_repo/scripts/pipeline.py -h
 
       # commit files
       - name: commit files
