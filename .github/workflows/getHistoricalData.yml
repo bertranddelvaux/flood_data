@@ -32,6 +32,12 @@ jobs:
         with:
           python-version: '3.9'
 
+      # Check submodule
+      - name: Update submodule
+        run: |
+          git submodule update --init
+          git submodule update --remote --merge
+
       # Set up python packages
 #      - name: install python packages
 #        run: |
