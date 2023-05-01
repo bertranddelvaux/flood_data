@@ -45,6 +45,10 @@ jobs:
       - name: pwd
         run: pwd
 
+      # cd flood_scripts_repo
+      - name: cd flood_scripts_repo
+        run: cd flood_scripts_repo
+
       # Set up python
       - name: setup python
         uses: actions/setup-python@v3
