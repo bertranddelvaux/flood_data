@@ -50,7 +50,7 @@ jobs:
         working-directory: ./flood_scripts # Change working directory to submodule
         run: |
           poetry install
-          poetry shell
+          poetry shell --no-interaction
 
       # execute python script processThroughFiles.py
       - name: execute python script pipeline.py
