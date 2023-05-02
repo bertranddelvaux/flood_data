@@ -28,7 +28,7 @@ jobs:
         python-version: '3.11'
 
     - name: Install Poetry
-      run: curl -sSL https://install.python-poetry.org | python3 -
+      run: curl -sSL https://install.python-poetry.org | python -
 
     - name: Check Submodule
       working-directory: ./flood_scripts # Change working directory to submodule
@@ -40,9 +40,34 @@ jobs:
       working-directory: ./flood_scripts # Change working directory to submodule
       run: poetry install
 
-    - name: Run Tests
-      working-directory: ./flood_scripts # Change working directory to submodule
-      run: poetry run pytest
+
+      # execute python script processThroughFiles.py
+      - name: execute python script pipeline.py
+        working-directory: ./flood_scripts
+        env:
+          JBA_USERNAME: ${{ secrets.JBA_USERNAME }}
+          JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
+        run: python scripts/pipeline.py -h
+
+      # commit files
+      - name: commit files
+        run: |
+          git config --global http.version HTTP/1.1
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git commit --allow-empty -m "Running historical data" -a
+
+      # push changes
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
+#    - name: Run Tests
+#      working-directory: ./flood_scripts # Change working directory to submodule
+#      run: poetry run pytest
 
 
 
