@@ -30,6 +30,12 @@ jobs:
     - name: Install Poetry
       run: curl -sSL https://install.python-poetry.org | python3 -
 
+    - name: Check Submodule
+      working-directory: ./flood_scripts # Change working directory to submodule
+        run: |
+          pwd
+          ls -la
+
     - name: Install Dependencies
       working-directory: ./flood_scripts # Change working directory to submodule
       run: poetry install
