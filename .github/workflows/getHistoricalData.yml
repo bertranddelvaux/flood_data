@@ -46,9 +46,11 @@ jobs:
           pwd
           ls -la
 
-      - name: Install Dependencies
+      - name: Install Dependencies and activating Poetry shell
         working-directory: ./flood_scripts # Change working directory to submodule
-        run: poetry install
+        run: |
+          poetry install
+          poetry shell
 
       # execute python script processThroughFiles.py
       - name: execute python script pipeline.py
