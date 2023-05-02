@@ -38,10 +38,8 @@ jobs:
           git fetch origin
           git checkout main
           git pull
-
-      # back to main directory
-      - name: back to main directory
-        run: cd ..
+          ls
+          cd ..
 
       # ls directory flood_scripts
       - name: ls directory flood_scripts
