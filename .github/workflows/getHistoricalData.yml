@@ -8,9 +8,9 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-  push:
-    branches:
-      - main
+#  push:
+#    branches:
+#      - main
 
 jobs:
   build:
@@ -59,14 +59,14 @@ jobs:
         JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
       run: poetry run python scripts/pipeline.py -h
 
-    # commit files
+      # commit files
     - name: commit files
       run: |
         git config --global http.version HTTP/1.1
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -A
-        git commit --allow-empty -m "Running historical data" -a
+        git commit -m "Historical data" -a
 
     # push changes
     - name: push changes
