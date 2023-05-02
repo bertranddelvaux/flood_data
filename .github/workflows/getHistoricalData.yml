@@ -30,6 +30,16 @@ jobs:
     - name: Install Poetry
       run: curl -sSL https://install.python-poetry.org | python -
 
+    # cd protocols and git fetch git pull
+    - name: Update submodule
+      run: |
+        cd flood_scripts
+        git fetch origin
+        git checkout main
+        git pull
+        ls -la
+        cd ..
+
     - name: Check Submodule
       working-directory: ./flood_scripts # Change working directory to submodule
       run: |
