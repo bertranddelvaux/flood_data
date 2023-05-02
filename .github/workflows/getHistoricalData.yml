@@ -1,95 +1,130 @@
-name: getHistoricalData
+name: CI
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow at the end of every day
-  schedule:
-    - cron: '0 * * * *' # every hour
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
+      with:
+        submodules: 'recursive' # Checkout submodules recursively
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Starting script to get historical data
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
 
-      # cd flood_scripts and git fetch git pull
-#      - name: cd flood_scripts and git fetch git pull
-#        run: |
-#          cd flood_scripts
-#          git fetch
-#          git pull
+    - name: Install Poetry
+      run: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 
-      # cd protocols and git fetch git pull
-      - name: Update submodule
-        run: |
-          cd flood_scripts
-          git fetch origin
-          git checkout main
-          git pull
-          ls
-          cd ..
+    - name: Install Dependencies
+      working-directory: ./flood_scripts # Change working directory to submodule
+      run: poetry install
 
-      # ls directory flood_scripts
-      - name: ls directory flood_scripts
-        run: ls -la flood_scripts
+    - name: Run Tests
+      working-directory: ./flood_scripts # Change working directory to submodule
+      run: poetry run pytest
 
-      # pwd
-      - name: pwd
-        run: pwd
 
-      # cd flood_scripts_repo
-      - name: cd flood_scripts_repo
-        run: cd flood_scripts_repo
 
-      # Set up python
-      - name: setup python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
-
-#      # Check submodule
+#name: getHistoricalData
+#
+## Controls when the workflow will run
+#on:
+#  # Triggers the workflow at the end of every day
+#  schedule:
+#    - cron: '0 * * * *' # every hour
+#  # Allows you to run this workflow manually from the Actions tab
+#  workflow_dispatch:
+#
+## A workflow run is made up of one or more jobs that can run sequentially or in parallel
+#jobs:
+#  # This workflow contains a single job called "build"
+#  build:
+#    # The type of runner that the job will run on
+#    runs-on: ubuntu-latest
+#
+#    # Steps represent a sequence of tasks that will be executed as part of the job
+#    steps:
+#      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#      - uses: actions/checkout@v3
+#
+#      # Runs a single command using the runners shell
+#      - name: Run a one-line script
+#        run: echo Starting script to get historical data
+#
+#      # cd flood_scripts and git fetch git pull
+##      - name: cd flood_scripts and git fetch git pull
+##        run: |
+##          cd flood_scripts
+##          git fetch
+##          git pull
+#
+#      # cd protocols and git fetch git pull
 #      - name: Update submodule
 #        run: |
-#          git submodule update --init
-#          git submodule update --remote --merge
-
-      # Set up python packages
-#      - name: install python packages
+#          cd flood_scripts
+#          git fetch origin
+#          git checkout main
+#          git pull
+#          ls
+#          cd ..
+#
+#      # ls directory flood_scripts
+#      - name: ls directory flood_scripts
+#        run: ls -la flood_scripts
+#
+#      # pwd
+#      - name: pwd
+#        run: pwd
+#
+#      # cd flood_scripts_repo
+#      - name: cd flood_scripts_repo
+#        run: cd flood_scripts_repo
+#
+#      # Set up python
+#      - name: setup python
+#        uses: actions/setup-python@v3
+#        with:
+#          python-version: '3.9'
+#
+##      # Check submodule
+##      - name: Update submodule
+##        run: |
+##          git submodule update --init
+##          git submodule update --remote --merge
+#
+#      # Set up python packages
+##      - name: install python packages
+##        run: |
+##          python -m pip install --upgrade pip
+##          pip install -r requirements.txt
+#
+#      # execute python script processThroughFiles.py
+#      - name: execute python script pipeline.py
+#        env:
+#          JBA_USERNAME: ${{ secrets.JBA_USERNAME }}
+#          JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
+#        run: python flood_scripts_repo/scripts/pipeline.py -h
+#
+#      # commit files
+#      - name: commit files
 #        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
-
-      # execute python script processThroughFiles.py
-      - name: execute python script pipeline.py
-        env:
-          JBA_USERNAME: ${{ secrets.JBA_USERNAME }}
-          JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
-        run: python flood_scripts_repo/scripts/pipeline.py -h
-
-      # commit files
-      - name: commit files
-        run: |
-          git config --global http.version HTTP/1.1
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git commit --allow-empty -m "update data" -a
-
-      # push changes
-      - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: main
+#          git config --global http.version HTTP/1.1
+#          git config --local user.email "action@github.com"
+#          git config --local user.name "GitHub Action"
+#          git add -A
+#          git commit --allow-empty -m "update data" -a
+#
+#      # push changes
+#      - name: push changes
+#        uses: ad-m/github-push-action@v0.6.0
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch: main
