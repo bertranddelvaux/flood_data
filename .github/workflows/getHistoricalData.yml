@@ -1,5 +1,3 @@
-# This is a basic workflow to help you get started with Actions
-
 name: getHistoricalData
 
 # Controls when the workflow will run
@@ -27,10 +25,18 @@ jobs:
         run: echo Starting script to get historical data
 
       # cd flood_scripts and git fetch git pull
-      - name: cd flood_scripts and git fetch git pull
+#      - name: cd flood_scripts and git fetch git pull
+#        run: |
+#          cd flood_scripts
+#          git fetch
+#          git pull
+
+      # cd protocols and git fetch git pull
+      - name: Update submodule
         run: |
           cd flood_scripts
-          git fetch
+          git fetch origin
+          git checkout main
           git pull
 
       # back to main directory
