@@ -45,6 +45,7 @@ jobs:
     - name: execute python script pipeline.py
       working-directory: ./flood_scripts
       env:
+        PYTHONPATH: "${{ github.workspace }}/flood_data/flood_scripts"
         JBA_USERNAME: ${{ secrets.JBA_USERNAME }}
         JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
       run: python scripts/pipeline.py -h
