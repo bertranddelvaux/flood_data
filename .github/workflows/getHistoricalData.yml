@@ -58,7 +58,7 @@ jobs:
           PYTHONPATH: "${{ github.workspace }}/flood_scripts"
           JBA_USERNAME: ${{ secrets.JBA_USERNAME }}
           JBA_PASSWORD: ${{ secrets.JBA_PASSWORD }}
-        run: poetry run --cwd . python my_script.pypython flood_scripts/scripts/pipeline.py -hist
+        run: poetry run -C . flood_scripts/scripts/pipeline.py -hist
 
         # commit files
       - name: commit files
